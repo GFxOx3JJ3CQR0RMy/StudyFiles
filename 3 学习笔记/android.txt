@@ -1,0 +1,10 @@
+android 后台安装 apk
+	pm install -r XXX.apk
+
+remount
+	mount -o remount,rw /dev/null /system
+	chmod 777 /system
+
+adb connect ip 
+adb logcat -s [TagName]
+am start -n con.package.name/.ActivityName -e Parname Value

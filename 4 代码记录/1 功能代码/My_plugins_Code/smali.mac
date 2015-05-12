@@ -1,0 +1,63 @@
+'*******************************************************************************
+'	这是一个为 EverEdit 编写的插件  
+'		 功能：为 smali 代码进行语法着色
+'
+' EverEdit Syntax File
+' Language:    smali
+' Maintainer:  www.everedit.net  
+' History:
+'   2014/02/20 First Version  By OverTime
+'   
+'*******************************************************************************
+Include( ".\const.mac" )
+
+Set smali=CreateParser()
+
+
+Set rString2=smali.CreateStringRegion( COLOR_STRING1, """", "\", False )
+Set rString1=smali.CreateStringRegion( COLOR_STRING1, "'", "\", False )
+
+
+smali.AddRegion( rString2 )
+smali.AddRegion( rString1 )
+
+'directives
+Set iMacro=smali.CreateItem(COLOR_MACRO, "\.[A-Z0-9]+", False)
+'type
+Set wWordType=smali.CreateWord(COLOR_WORD2, "V I C Z D", False)
+'register
+
+wWordType.AutoCase=True
+
+
+
+
+'commands
+Set wWordOP=smali.CreateWord(COLOR_WORD1, "public final private static", False)
+wWordOP.AutoCase=True
+
+'commands
+Set wWordDotB=smali.CreateWord(COLOR_COMMENT1,".method .line .end .locals .parameter .prologue", False)
+Set nWord=smali.CreateWord(COLOR_COMMENT2,"invoke-super-quick invoke-super-quick invoke-virtual-quick invoke-virtual-quick iput-object-quick iput-wide-quick iput-quick iget-object-quick iget-wide-quick iget-quick invoke-direct-empty execute-inline ushr-int shr-int shl-int xor-int or-int and-int rem-int div-int mul-int sub-int add-int xor-int or-int and-int rem-int div-int mul-int sub-int add-int rem-double div-double mul-double sub-double add-double rem-float div-float mul-float sub-float add-float ushr-long shr-long shl-long xor-long or-long and-long rem-long div-long mul-long sub-long add-long ushr-int shr-int shl-int xor-int or-int and-int rem-int div-int mul-int sub-int add-int rem-double div-double mul-double sub-double add-double rem-float div-float mul-float sub-float add-float ushr-long shr-long shl-long xor-long or-long and-long rem-long div-long mul-long sub-long add-long ushr-int shr-int shl-int xor-int or-int and-int rem-int div-int mul-int sub-int add-int int-to-short int-to-char int-to-byte double-to-float double-to-long double-to-int float-to-double float-to-long float-to-int long-to-double long-to-float long-to-int int-to-double int-to-float int-to-long neg-double neg-float not-long neg-long not-int neg-int invoke-interface-range invoke-super invoke-virtual invoke-interface invoke-static invoke-direct nop move move-wide move-object move-result move-result-wide move-result-object move-exception return-void return return-wide return-object const const-wide const-string const-string-jumbo const-class monitor-enter monitor-exit check-cast instance-of array-length new-instance new-array filled-new-array filled-new-array-range fill-array-data throw goto packed-switch sparse-switch cmpl-float cmpg-float cmpl-double cmpg-double cmp-long if-eq if-ne if-lt if-ge if-gt if-le if-eqz if-nez if-ltz if-gez if-gtz if-lez aget aget-wide aget-object aget-boolean aget-byte aget-char aget-short aput aput-wide aput-object aput-boolean aput-byte aput-char aput-short iget iget-wide iget-object iget-boolean iget-byte iget-char iget-short iput iput-wide iput-object iput-boolean iput-byte iput-char iput-short sget sget-wide sget-object sget-boolean sget-byte sget-char sget-short sput sput-wide sput-object sput-boolean sput-byte sput-char sput-short invoke-virtual invoke-super ",True,"-")
+
+
+wWordDotB.AutoCase=True
+nWord.AutoCase=True
+
+
+
+Set nItem=smali.CreateItem(COLOR_TAG,"L([A-Za-z0-9]|/)*;",False)
+
+Set nWordRegister=smali.CreateItem(COLOR_WORD3,"(p|v)[0-9][0-9]*",False)
+
+
+smali.AddItem( iMacro )
+smali.AddItem( nWordRegister )
+smali.AddWord( wWordOP )
+smali.AddWord( wWordType )
+smali.AddWord( wWordDotB )
+smali.AddWord( nWord )
+smali.AddItem( nItem )
+
+smali.SetPairs( "[]{}()""""''" )
+smali.CommentLine(";")

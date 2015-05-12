@@ -1,0 +1,275 @@
+/**
+*	非常基本的 Log 输出代码，可以直接输出 String 类型的字符串
+*   Log.d("===test test==>",String);
+*/
+	const-string v3, "===test test==>"
+	invoke-static {v3, p1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+
+打印 Char 类型字符：
+/**
+*	Log.d("Hook_Log_Print", "======[ "+a+" ]");
+*
+*	invoke-virtual {p0, v1}, Lcom/example/androidtest/MainActivity;->PrintMyLog(C)V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public PrintMyLog(C)V
+    .registers 5
+    .parameter "a"
+
+    .prologue
+    .line 44
+    const-string v0, "Hook_Log_Print"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "======[ "
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " ]"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 45
+    return-void
+.end method
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+打印 Int类型数字
+/**
+*	Log.d("Hook_Log_Print", "======[ "+a+" ]");
+*
+*	invoke-virtual {p0, v2}, Lcom/example/androidtest/MainActivity;->PrintMyLog(I)V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public PrintMyLog(I)V
+    .registers 5
+    .parameter "a"
+
+    .prologue
+    .line 41
+    const-string v0, "Hook_Log_Print"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "======[ "
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " ]"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 42
+    return-void
+.end method
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+打印 String 类型字符串
+/**
+*	Log.d("Hook_Log_Print", "======[ "+a+" ]");
+*
+*	invoke-virtual {p0, v3}, Lcom/example/androidtest/MainActivity;->PrintMyLog(Ljava/lang/String;)V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public PrintMyLog(Ljava/lang/String;)V
+    .registers 5
+    .parameter "a"
+
+    .prologue
+    .line 38
+    const-string v0, "Hook_Log_Print"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "======[ "
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " ]"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 39
+    return-void
+.end method
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+打印 Byte 类型数组
+/**
+*	Log.d("Hook_Log_Print", "======[ " + new String(a)+ " ]");
+*
+*	invoke-virtual {p0, v0}, Lcom/example/androidtest/MainActivity;->PrintMyLog([B)V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public PrintMyLog([B)V
+    .registers 5
+    .parameter "a"
+
+    .prologue
+    .line 47
+    const-string v0, "Hook_Log_Print"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "======[ "
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    new-instance v2, Ljava/lang/String;
+
+    invoke-direct {v2, p1}, Ljava/lang/String;-><init>([B)V
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " ]"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 48
+    return-void
+.end method
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+输出JSONObject 语句
+/**
+*	Log.d("Hook_Log_Print", "======json[ "+bjJsonObject.toString()+" ]");
+*
+*	invoke-virtual {p0, v2}, Lcom/example/androidtest/MainActivity;->PrintJSON(Lorg/json/JSONObject;)V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public PrintJSON(Lorg/json/JSONObject;)V
+    .registers 5
+    .parameter "bjJsonObject"
+
+    .prologue
+    .line 82
+    const-string v0, "Hook_Log_Print"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "======json[ "
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p1}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " ]"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 83
+    return-void
+.end method
+
+*************************************************************************************************************************************
+*************************************************************************************************************************************
+输出hello 测试语句
+/**
+*	Log.d("Hello_World","======[ Hello Smali Log Test ]");
+*
+*	invoke-virtual {p0}, Lcom/example/androidtest/MainActivity;->SayALogTest()V
+*
+*		PS:  Lcom/example/androidtest/MainActivity 这个类要替换成对应的新类名
+*/
+/////////////   Smali Code Here
+
+.method public SayALogTest()V
+    .registers 3
+
+    .prologue
+    .line 51
+    const-string v0, "Hello_World"
+
+    const-string v1, "======[ Hello Smali Log Test ]"
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 52
+    return-void
+.end method
+
+

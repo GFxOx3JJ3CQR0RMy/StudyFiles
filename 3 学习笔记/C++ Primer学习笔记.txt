@@ -1,0 +1,70 @@
+《C++ Primer》 学习笔记
+1.	lambda 的资料
+		知识点: lambda 。
+		代码 ：
+		  1 //test.cpp
+		  2 #include <iostream>
+		  3 template<typename Func>
+		  4 void test(Func f){
+		  5     std::cout<<f(3)<<std::endl;
+		  6 }
+		  7 template<typename Func>
+		  8 void test2(Func f){
+		  9     std::cout<<f(13)<<std::endl;
+		 10 }
+		 11 int main(){
+		 12     int a = 1;
+		 13     int b = 2;
+		 14     auto f = [a,b](int c){return a+b+c;};
+		 15     test(f);
+		 16     a=2;b=3;
+		 17     test2(f);
+		 18     return 0;
+		 19 }
+	  测试结果：
+	  $ g++ -std=c++0x test.cpp -o test
+	  $ ./test 
+	  6
+	  16
+	  参考链接：
+	  http://www.cnblogs.com/richardustc/archive/2013/03/17/2964736.html
+	  
+2.	一段有趣的代码
+		知识点: map、function、lambda 等。
+		代码：
+		  1 //test.cpp
+		  2 #include <iostream>
+		  3 #include <string>       // string   头文件
+		  4 #include <map>          // map      头文件
+		  5 #include <functional>   // function 头文件
+		  6
+		  7 int add(int i,int j){return i+j;}
+		  8
+		  9 int main(){
+		 10     auto mod = [](int i,int j){return i%j;};
+		 11     struct divide{
+		 12         int operator()(int i,int j){return i/j;}
+		 13     };
+		 14     std::map<std::string , std::function<int(int,int)>>binops = {
+		 15         {"+",add},
+		 16         {"-",std::minus<int>()},
+		 17         {"/",divide()},
+		 18         {"*",[](int i,int j){return i*j ; }},
+		 19         {"%",mod}
+		 20     };
+		 21     std::cout<< binops["+"](10,5) << std::endl;
+		 22     std::cout<< binops["-"](10,5) << std::endl;
+		 23     std::cout<< binops["/"](10,5) << std::endl;
+		 24     std::cout<< binops["*"](10,5) << std::endl;
+		 25     std::cout<< binops["%"](10,5) << std::endl;
+		 26     return 0;
+		 27 }
+		测试结果：
+		$ g++ -std=c++0x test.cpp -o test
+		$ ./test 
+		15
+		5
+		2
+		50
+		0
+		代码参考： 《C++ Primer》(第五版中文)  page:513  页边标注的英文版页码： page 578

@@ -1,0 +1,78 @@
+CMake 是一个可以跨平台生成 makefile的工具，可以令工程真正的一套代码到处编译。
+1.CMake 下的 HelloWorld：
+	a)首先从hello world ！ 入手，创建一个 main.c 文件，代码如下：
+		#include <stdio.h>
+		int main(){
+			printf("Hello World !\n");
+			return 0
+		}
+	b)在同目录创建 CMakeLists.txt ,代码如下：
+		project(HELLO)
+		set(SRC_LIST main.c)
+		add_executable(hello ${SRC_LIST})
+	c)随后在相同目录下创建 build 目录，令工程目录结构如下所示:
+		.
+		├── build
+		├── CMakeLists.txt
+		└── main.c
+	d)此时在 build 目录下 运行 【cmake .. 】 这个命令即可生成该工程对应的 Makefile 文件。。
+	e)此时 工程目录结构如下所示：
+		.
+		├── build
+		│   ├── CMakeCache.txt
+		│   ├── CMakeFiles
+		│   │   ├── 2.8.11.2
+		│   │   │   ├── CMakeCCompiler.cmake
+		│   │   │   ├── CMakeCXXCompiler.cmake
+		│   │   │   ├── CMakeDetermineCompilerABI_C.bin
+		│   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+		│   │   │   ├── CMakeSystem.cmake
+		│   │   │   ├── CompilerIdC
+		│   │   │   │   ├── a.out
+		│   │   │   │   └── CMakeCCompilerId.c
+		│   │   │   └── CompilerIdCXX
+		│   │   │       ├── a.out
+		│   │   │       └── CMakeCXXCompilerId.cpp
+		│   │   ├── cmake.check_cache
+		│   │   ├── CMakeDirectoryInformation.cmake
+		│   │   ├── CMakeOutput.log
+		│   │   ├── CMakeTmp
+		│   │   ├── hello.dir
+		│   │   │   ├── build.make
+		│   │   │   ├── cmake_clean.cmake
+		│   │   │   ├── DependInfo.cmake
+		│   │   │   ├── depend.make
+		│   │   │   ├── flags.make
+		│   │   │   ├── link.txt
+		│   │   │   └── progress.make
+		│   │   ├── Makefile2
+		│   │   ├── Makefile.cmake
+		│   │   ├── progress.marks
+		│   │   └── TargetDirectories.txt
+		│   ├── cmake_install.cmake
+		│   └── Makefile
+		├── CMakeLists.txt
+		└── main.c
+	f)此时可以发现 build 目录下已经生成了 Makefile 文件，在该目录下 
+			直接运行 make 文件即可编译出名字为 hello 的可执行文件。
+	g)运行这个文件，即可得到 main.c 的代码结果,如下所示：
+		overtime@ubuntu:~/TestWork/build$ make
+		Scanning dependencies of target hello
+		[100%] Building C object CMakeFiles/hello.dir/main.c.o
+		Linking C executable hello
+		[100%] Built target hello
+		overtime@ubuntu:~/TestWork/build$ ./hello 
+		Hello World !
+		overtime@ubuntu:~/TestWork/build$ 
+2. 阅读代码是遇到的一些命令
+	list（APPEND WTF_SOURCES XXX.cpp）   
+	#将  XXX.cpp 追加于 WTF_SOURCES 这个变量中
+	target_link_libraries(WTF ${WTF_LIBRARIES}) 
+	#生成静态链接库
+	set_target_properties(WTF PROPERTIES COMPILE_DEFINITIONS "BUILDING_WTF")
+	#设置目标文件的一些生成属性，如最终目录，输出名字等。
+	add_library(WTF STATIC ${WTF_HEADERS} ${WTF_SOURCES})
+	# 添加 静态资源参数 ？？？？？？？？
+	可以参考的链接：
+	http://www.cnblogs.com/coderfenghc/archive/2012/09/03/2668008.html
+	http://www.cnblogs.com/yeta/archive/2012/11/24/2786451.html

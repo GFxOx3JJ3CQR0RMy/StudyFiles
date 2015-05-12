@@ -1,0 +1,6 @@
+
+1.  chrome 和 firefox 中可以打开一个文本编辑器，
+	方法为在地址栏输入如下地址  ：
+		data:text/html,<html contenteditable>
+
+2.  

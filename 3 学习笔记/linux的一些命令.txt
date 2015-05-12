@@ -1,0 +1,17 @@
+1. ssh建立 sockets 代理服务
+	$ ssh -qTfnN -D 0.0.0.0:1080 [ username ]@[ ipaddress ]
+
+2. Ubuntu屏幕显示出问题时用到的命令
+	$ sudo apt-get install -reinstall ubuntu-desktop
+	$ sudo apt-get install fglrx
+	$ sudo reboot
+
+3. ssh 服务器配置时由于证书原因无法远程登录
+	$ ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+	$ ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+4. sshkey for github
+	$ ssh-keygen -t rsa -C "your_email@youremail.com"
+	$ cat ~/.ssh/id_rsa.pub
+ 	   --> github.com/ --> Settings  -->
+	   --> SSH keys --> Add SSH key

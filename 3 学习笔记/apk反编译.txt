@@ -1,0 +1,12 @@
+odex反编译方法
+	1.到官网下载最新的baksmali
+	2.反编译命令为 java -jar baksmali.jar -x TEST.odex
+	3.如果此时出现 无法加载 core.odex 文件错误，
+			需要到手机的 /system/framework 目录中搜集以下几个文件，
+			并放置于新建的framework目录，
+			core.odex, ext.odex, framework.odex, 
+			android.policy.odex, services.odex
+	4.此时便可以 java -jar baksmali.jar -x TEST.odex -d framework
+		这个过程中可能会需要新的odex文件，所以最好在第3步时将framework的
+		所有odex文件都取出来放到framework目录下
+	5.java -Xmx512M -jar smali.jar out -o classes.dex

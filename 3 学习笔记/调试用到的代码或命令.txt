@@ -1,0 +1,36 @@
+Math.atan2(0xbadc0de,"Hello World !");
+bu jscript!JsAtan2 ".printf \"%mu\" poi(poi(poi(esp+14)+8)+8);.echo g"
+
+日志记录方法：
+.logopen d:\output.txt   -->    :!address   --> .logclose
+
+堆数据找回：
+s -u 10000 L8000000 "find_me?"
+
+通过网络进行调试：
+	dbgsrv.exe -t tcp:port=9999
+	windbg.exe -premote tcp:port=9999,server=xxx.xxx.xxx.xxx
+
+
+一个漏洞分析的案例。
+1.kvn  查看堆栈状态
+2.利用msdn找到对应函数的定义 EG：
+	LONG WINAPI UnhandledExceptionFilter(
+	  _In_  struct _EXCEPTION_POINTERS *ExceptionInfo
+	);
+3.寻找结构体定义：
+	typedef struct _EXCEPTION_POINTERS {
+		PEXCEPTION_RECORD ExceptionRecord;
+		PCONTEXT          ContextRecord;
+	} EXCEPTION_POINTERS, *PEXCEPTION_POINTERS;
+4. 分析函数传入的参数信息
+	0:006> dt _EXCEPTION_POINTERS 55b23f30
+	ATL80!_EXCEPTION_POINTERS
+		+0x000 ExceptionRecord  : 0x55bb98a0 _EXCEPTION_RECORD
+		+0x004 ContextRecord    : 0x55bb98f8 _CONTEXT
+5.查看异常信息
+	0:006> .exr 0x55bb98a0
+	ExceptionAddress: 5580757b (bdlogicmain+0x0000757b)
+	   ExceptionCode: c0000409 (Stack buffer overflow)
+	  ExceptionFlags: 00000001
+	NumberParameters: 0

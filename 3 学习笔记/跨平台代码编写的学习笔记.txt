@@ -1,0 +1,53 @@
+多文件代码尝试
+
+代码目录树以及代码内容
+	$ tree
+		.
+		├── main.c  //程序主文件
+		├── mlib.c  // 外部代码实现
+		└── mlib.h  // 外部代码声明
+	$ cat mlib.h
+		#ifndef _TEST_H
+		#define _TEST_H
+
+		int add (int a,int b);
+		#endif
+	$ cat mlib.c
+		#include "mlib.h"
+		int add(int a ,int b){
+			return a+b;
+		}
+	$ cat main.c
+		#include<stdio.h>
+		#include"mlib.h"
+
+		int main(){
+			printf("%d\n",add(2,3));
+			return 1;
+		}
+独立可执行文件编译方法
+	$ gcc -c *.c
+	$ gcc -o test *.o
+	$ tree
+		.
+		├── main.c
+		├── main.o
+		├── mlib.c
+		├── mlib.h
+		├── mlib.o
+		└── test
+	$ ./test
+		5
+依赖 mlib.so 的可执行文件编译方法
+(注：其中 -fPIC 参数可以不加，不清楚他人为何会在编译时加入该参数)
+	$ gcc -shared -fPIC -o mlib.so mlib.c
+	$ gcc main.c -o test ./mlib.so
+	$ tree
+		.
+		├── main.c
+		├── mlib.c
+		├── mlib.h
+		├── mlib.so
+		└── test
+	$ ./test
+		5

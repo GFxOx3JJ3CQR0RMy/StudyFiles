@@ -1,0 +1,30 @@
+这里有很多好工具
+    http://eternallybored.org/misc/
+好多书
+    https://github.com/vhf/free-programming-books
+windows平台漏洞利用学习
+    http://blog.csdn.net/bincker/article/details/43193821
+
+袁哥TK提到的pax主页，里面有很多比较前沿的技术资料
+    http://pax.grsecurity.net/
+一个国外的安全研究团队的研究结果
+    http://www.trailofbits.com/research/
+总结了最近几年一些绕过ROP的技术
+    http://www.fireeye.com/blog/technical/cyber-exploits/2013/10/aslr-bypass-apocalypse-in-lately-zero-day-exploits.html
+浏览器的安全底限在于数组？
+    http://blog.exodusintel.com/2013/11/26/browser-weakest-byte/
+    http://blog.exodusintel.com/2013/12/09/a-browser-is-only-as-strong-as-its-weakest-byte-part-2/
+堆溢出漏洞利用研究
+    http://www.vupen.com/blog/20120117.Advanced_Exploitation_of_Windows_MS12-004_CVE-2012-0003.php
+一些非常好的文档连接
+    http://code.google.com/p/it-sec-catalog/wiki/Exploitation
+一个牛人的各种链接
+    http://hi.baidu.com/pythond/item/e0eec604a5cfca056c904804
+IE 0day 利用方法
+    https://docs.google.com/viewer?url=https%3A%2F%2Fsites.google.com%2Fsite%2Fzerodayresearch%2Fsmashing_the_heap_with_vector_Li.pdf%3Fattredirects%3D0
+IE COM 组件开发方法
+    http://www.codeproject.com/Articles/13601/COM-in-plain-C
+有很多好用的在线服务连接，包括一个在线反编译网站。。。
+    http://blog.m4rk.org/online
+一个关于IOS安全的博客
+    http://wufawei.com/

@@ -1,0 +1,79 @@
+1.	OpenWrt 配置方法
+		路由器  ： TP-Link MR10U
+
+		需要配置 4 个文件，分别为网络接口文件、dhcp服务配置文件、
+		Wifi热点配置文件 和 防火墙配置文件，四个文件配置完成后，
+		可以通过 wifi up 命令完成 热点启动，操作如下所示：
+			
+		#vim /etc/config/network
+			config interface 'lan'
+			        option ifname 'eth0'
+			        option force_link '1'
+			        option type 'bridge'
+			        option proto 'static'
+			        option ipaddr '192.168.16.225'
+			        option netmask '255.255.255.0'
+			        option gateway '192.168.16.254'
+			        option dns '192.168.1.1'
+			        option ip6assign '60'
+
+
+			config interface 'wifi'
+			        option type 'bridge'
+			        option proto 'static'
+			        option ipaddr '192.168.200.1'
+			        option netmask '255.255.255.0'
+			        option dns '192.168.1.1'
+			        option ip6assign '64'
+		        
+		#vim /etc/config/dhcp
+			 
+			+config dhcp
+			+		option start '100'
+			+		option leasetime '12h'
+			+		option limit '150'
+			+		option interface 'wifi'
+
+
+		#vim /etc/config/wireless
+
+			-   option disabled 1
+			config wifi-iface
+			        option device 'radio0'
+			        option mode 'ap'
+			        option network 'wifi'
+			+        option ssid 'OverTimeWRT'
+			+        option encryption 'psk2'
+			+        option key 'WP8test111'
+
+		#vim /etc/config/firewall
+			config zone
+				option name lan
+			-	list network 'lan'
+			+	list network 'wifi'
+			.......
+			config zone 
+				option name wan
+			-	list network 'wan'
+			-	list network 'wan 6'
+			+	list network 'lan'
+			......
+
+		# wifi up
+		此时，就可以在电脑上看到新建立的 wifi 了。
+
+		如需要安装 web 端的管理工具，可以安装 Luci 进行管理，命令如下所示：
+		设置 root 用户的密码，luci 的登陆需要录入 root 密码。
+		# passwd
+		更新源：
+		# opkg update
+		安装 luci
+		# opkg install luci
+		安装 中文 
+		# opkg install luci-i18n-chinese
+		启动 luci
+		# /etc/init.d/uhttpd enable
+		# /etc/init.d/uhttpd start
+
+		浏览器访问  192.168.200.1 即可。
+		

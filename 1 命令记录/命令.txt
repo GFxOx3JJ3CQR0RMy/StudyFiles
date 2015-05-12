@@ -1,0 +1,5 @@
+挂载 fat32 的 U 盘
+# fdisk -l
+# cd /mnt/
+# mkdir usb
+# mount -t vfat /dev/sda1 /mnt/usb

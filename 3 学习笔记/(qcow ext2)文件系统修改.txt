@@ -1,0 +1,26 @@
+1. qcow2文件系统
+    a) 挂载
+    $ sudo qemu-nbd -c /dev/nbd0 debian_squeeze_mips_standard.qcow2 
+    $ sudo modprobe nbd max_part=8
+    $ sudo qemu-nbd -c /dev/nbd0 test.qcow2
+    $ sudo mount /dev/nbd0p1 /tmp/testqcow/
+    b) 卸载
+    $ umount /tmp/testqcow/
+    $ qemu-nbd -d /dev/nbd0
+
+2. qemu 加载qcow2 的文件系统
+    参考资料： http://people.debian.org/~aurel32/qemu/mips/
+    // 在这个连接里有需要系在的系统文件，以及操作命令
+    $ qemu-system-mips -M malta -kernel vmlinux-2.6.32-5-4kc-malta -hda test.qcow2 -append "root=/dev/sda1 console=tty0"
+
+3.  guestfish 操作qcow2 文件系统
+    $ sudo apt-get install libguestfs-tools
+    $ guestfish -a xxxx.qcow2 -i
+        ><fs> download /bin/zcat ~/def
+          // 从文件系统中提取文件
+        ><fs> upload ~/tar /bin/tar-m
+          // 向文件系统更新文件
+          
+4.  以目录为模板生成一个ext2的文件系统。
+    $ sudo apt-get install genext2fs
+    $ genext2fs -b 102400 -d ./jffs2-root/ m_rootfs

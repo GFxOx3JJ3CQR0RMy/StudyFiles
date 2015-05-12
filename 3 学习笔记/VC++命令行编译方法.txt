@@ -1,0 +1,46 @@
+参考链接：http://www.cnblogs.com/kekec/archive/2013/04/06/3002077.html
+
+msdev.com  (编译VC6.0):
+    1. 将一个工程编译出 Debug/Release 两种版本，并用 /out 重定向日志
+        msdev nMakeTest.dsp /make "nMakeTest - Win32 Debug" /out build.log
+        msdev nMakeTest.dsp /make "nMakeTest - Win32 Release" /out build.log
+        msdev nMakeTest.dsp /make "nMakeTest - All" > build.log
+    2. 编译多个工程（dsw）
+        msdev nMakeTest.dsw /make "nMakeTest1 - Win32 Release" "nMakeTest2 - ALL" /out build.log
+    3. 清除一个工程
+        msdev nMakeTest.dsp /make "nMakeTest - Win32 Debug" /clean /out build.log
+    4. 清除并重新编译一个工程
+        msdev nMakeTest.dsp /make "nMakeTest - Win32 Debug" /rebuild /out build.log
+    5. 其他选项说明
+        /norecurse    不编译依赖工程
+        /useenv       忽略Tools/Options/Directories Settings下路径配置，使用环境变量下的路径配置
+devenv.com （编译VS工程）
+    1. 编译一个工程Debug/Release版，并使用/out[>]输出日志到指定文件
+        devenv.com vsNMakeTest.vcproj /build "Debug|Win32" /out build.log
+        devenv.com vsNMakeTest.vcproj /build "Release|Win32" > build.log
+        devenv.com vsNMakeTest.sln /build "Release|Win32" /project "vsNMakeTest\vsNMakeTest.vcproj"> build.log
+    2. 编译一个解决方案
+        devenv vsNMakeTest.sln /build "Debug|Win32" /out build.log
+        devenv vsNMakeTest.sln /build "Release|Win32" > build.log
+    3. 清理工程/解决方案
+        devenv vsNMakeTest.vcproj /clean "Debug|Win32" /out build.log
+        devenv vsNMakeTest.sln /clean"Release|Win32" > build.log
+    4. 清除并重新编译一个工程/解决方案
+        devenv vsNMakeTest.vcproj /rebuild "Debug|Win32" /out build.log
+        devenv vsNMakeTest.sln /rebuild "Release|Win32" > build.log
+    5. vcbuild
+        [win32版本：D:\Program Files\Microsoft Visual Studio 9.0\VC\vcpackages]
+        [x64版本：   D:\Program Files\Microsoft Visual Studio 9.0\VC\bin\amd64]
+        编译vs的vcproj工程。 【vcbuild.exe /?】  获得更多帮助。
+        vcbuild.exe" /platform:win32 vsNMakeTest.vcproj debug
+        vcbuild.exe" /rebuild /platform:win32 vsNMakeTest.vcproj release
+        vcbuild.exe" /clean /platform:win32 vsNMakeTest.vcproj release
+    6. msbuild
+        如果你的机器上没有装有Visual Studio，那么可以使用MSBuild编译.sln或.project（C++/C#/VB等）。
+        MSBuild可以通过安装.NETFramework来安装，一般的安装路径为C:\Windows\Microsoft.NET\Framework\版本号。
+        其实devenv执行build时候，后台也是调用MSBuild来build的。【msbuild.exe /?】  获得更多帮助。
+
+        MSBuild vsNMakeTest.sln /t:rebuild /p:Configuration=Release
+        MSBuild vsNMakeTest.vcproj /t:rebuild /p:Configuration=Debug
+        MSBuild vsNMakeTest.vcproj /t:clean /p:Configuration=Debug
+        MSBuild vsNMakeTest.csproj /t:build /p:Configuration=Debug;Platform=x86;TargetFrameworkVersion=v3.5

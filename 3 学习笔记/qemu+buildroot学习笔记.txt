@@ -1,0 +1,54 @@
+1. qemu的使用
+    $ sudo apt-get install qemu
+        // 安装 qemu
+    $ wget http://wiki.qemu.org/download/arm-test-0.2.tar.gz
+        // 下载 arm 测试系统
+    $ tar -zxvf arm-test-0.2.tar.gz
+        // 解包 测试系统
+    $ cd arm-test
+        // 进入目录
+    $ qemu-system-arm --kernel zImage.integrator -initrd arm_root.img
+        // 至此qemu 运行 arm 测试系统成功
+        
+2. buildroot的使用
+    参考1：http://buildroot.uclibc.org/downloads/manual/manual.html
+    参考2：http://www.cnblogs.com/lunix/archive/2010/05/27/qemu_build_small_linux.html
+    $ wget http://buildroot.net/downloads/snapshots/buildroot-snapshot.tar.bz2
+        // 该URL为 buildroot的最新版本下载，每次版本更新都会更新到这里
+    $ tar jxf buildroot-snapshot.tar.bz2
+    $ cd buildroot
+    $ make menuconfig
+        // 修改编译选项
+        // a) Target options 用于选择目标系统的 CPU 架构
+        // b) Toolchain 中的重要选项有： linux内核版本、uClibc 版本、GCC编译版本
+        // c) 其他关注项，busybox、gdb等应用
+    $ make 
+        // 执行编译，buildroot会自动下载一些必要的应用源码，并进行编译。
+        // -->！未尝试！<--  $ make source 需要提前将必要的源码放置于~/buildroot/dl/ 
+        // -->！未尝试！<--  http://ftp.gnu.org/gnu/binutils/binutils-2.20.1.tar.bz2
+        // -->！未尝试！<--  http://ftp.gnu.org/gnu/gcc/gcc-4.3.4/gcc-4.3.4.tar.bz2
+        // -->！未尝试！<--  http://uclibc.org/downloads/uClibc-0.9.31.tar.bz2
+        // -->！未尝试！<--  http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.2.tar.bz2
+        +---------------------------------------------------------------------+
+        |  PS:在make menuconfig 中配置linux内核的编译时，可能会导致如下错误     |
+        |    *** No kernel defconfig name specified, check your               |
+        |        BR2_LINUX_KERNEL_DEFCONFIG setting.  Stop.                    |
+        |    这个问题是由于未配置 BR2_LINUX_KERNEL_DEFCONFIG 的值导致的，       |
+        |    在 buildroot 中正常会存在一个可用文件，目录为:                     |
+        |    board/qemu/mips-malta/linux-X.xx.config                          |
+        |    这个文件可以用来配置 BR2_LINUX_KERNEL_DEFCONFIG 的值。            |
+        |    而在相同目录下有一个readme.txt的文件，该文件中有在qemu中运行目标    |
+        |    产品的命令。                                                      |
+        +---------------------------------------------------------------------+
+    $ qemu-system-mips -M malta -kernel output/images/vmlinux -serial stdio -hda \
+        output/images/rootfs.ext2 -append "root=/dev/hda" \
+        -net nic,model=pcnet -net user
+
+
+3.  linux 内核编译
+	$ make menuconfig
+		// 配置内核需求
+	$ make ARCH=mips CROSS_COMPILE=[path-to-gcc]/xxx-gcc
+	    // 需要注意的是，命令中CROSS参数路径后要精确到文件。
+	    // 且gcc的名字要保留前半段(到减号)而省去gcc这个串。
+	    // 这是由于编译中还可能用到 g++ 等其他工具，make工具会自动补齐。

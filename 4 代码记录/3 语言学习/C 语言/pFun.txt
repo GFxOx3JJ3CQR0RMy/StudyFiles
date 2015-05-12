@@ -1,0 +1,49 @@
+#include<stdio.h>
+
+//**************************************************
+int add(int a,int b){
+    return a+b;
+}
+
+int sub(int a,int b){
+    return a-b;
+}
+
+//**************************************************
+typedef int(*PINTINT)(int ,int);
+PINTINT get_fun(char *str){
+    PINTINT pfun;
+    if(!strcmp("add",str)){
+        pfun = add;
+    }
+    else{
+        pfun = sub;
+    }
+    return pfun;
+}
+
+//**************************************************
+PINTINT pFun;
+int main(int argc, char* argv[])
+{
+    int a ,b,result;
+    a = 30;
+    b = 20;
+
+    pFun = add;
+    result = pFun(a,b);
+    printf("%d + %d = %d .\n", a , b , result);
+
+    pFun = sub;
+    result = pFun(a,b);
+    printf("%d - %d = %d .\n", a , b , result);
+
+    pFun = get_fun("add");
+    result = pFun(a,b);
+    printf("%d + %d = %d .\n", a , b , result);
+
+    pFun = get_fun("sub");
+    result = pFun(a,b);
+    printf("%d - %d = %d .\n", a , b , result);
+    return 0;
+}
